@@ -7,16 +7,20 @@
 1. Поддержка утилиты wget
 2. Отстутствие старой версии php, apache
 ps: для очистки старой версии, или если неправильно установили используйте скрипт очистки версии
-    
-      $ cd install
-      $ sudo ./install.sh
+<br>    
+      $ cd install <br> 
+      $ sudo ./install.sh <br> 
 
-<h3>Предварительная установка</h3>
+<h4>Предварительная установка PHP7 + Apache2.4 + MySQL5.6 + PhpMyAdmin</h4>
 1. Копируйте на рабочий стол проект
 2. Открываете терминал
-3. $ cd install
-4. $ sudo ./install.sh
-<br>
+3. Запускаем установочный скрипт
+<br> 
+$ cd install<br> 
+$ sudo ./install.sh<br> 
 
+<h4>Установка Apachengine</h4>
+1. Запускаем установочный скрипт
+$ sudo ./apachengine.sh<br>
+2. Открываем браузер и переходим http://apachengine
 
-<h3>Установка PHP7 + Apache2.4 + MySQL5.6 + PhpMyAdmin</h3>
