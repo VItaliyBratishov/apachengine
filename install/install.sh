@@ -1,5 +1,5 @@
 #!/bin/bash
-echo 'Установка сервера'
+echo 'Установка PHP7 + Apache2.4 + MySQL5.4 + PHPMyAdmin + Composer'
 
 # установка php7
 sudo apt-get install python-software-properties
@@ -22,7 +22,9 @@ sudo apt-get install mysql-server-5.6
 sudo apt-get install libapache2-mod-php7.0 php7.0-mysql php7.0-curl php7.0-json
 sudo cp dir.conf /etc/apache2/mods-enabled/dir.conf
 sudo a2enmod php7.0
-sudo cp index.html /var/www/html/
+
+# установка composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
 # установка phpmyadmin
 cd /usr/share
@@ -35,14 +37,14 @@ sudo  ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 #настройка доступа к phpmyadmin
 sudo mkdir /etc/apache2/sites-available/
 sudo touch /etc/apache2/sites-available/000-default.conf
-echo "Внимание, сейчас откроется редактор, добавьте новое содержание"
+echo "Внимание, сейчас откроется редактор, скопируйте и добавьте новое содержание:"
 echo "Alias /phpmyadmin \"/usr/share/phpmyadmin/\""
 echo "<Directory \"/usr/share/phpmyadmin/\">"
 echo "     Order allow,deny"
 echo "     Allow from all"
 echo "     Require all granted"
 echo "</Directory>"
-read -p "Дальше? [Д/н]" answer
+read -p "Дальше? [Д/н] " answer
 sudo gedit /etc/apache2/sites-available/000-default.conf
 
 sudo a2enmod rewrite

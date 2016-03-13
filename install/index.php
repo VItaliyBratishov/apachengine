@@ -353,7 +353,7 @@
 
     <!-- footer -->
     <footer>
-      <p>&copy ApachEngine 2016</p>
+      <p>&copy Apachengine 2016</p>
     </footer>
   </main>
 
