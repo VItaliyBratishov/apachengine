@@ -1,8 +1,8 @@
 <h3>Apachengine <sup>beta</sup></h3>
 <b>Управление сервером через веб-панель</b>
-<p>Возможность автоматического добавления хостов в apache</p>
+<p>Возможность автоматического добавления, удаления хостов, просмотр php версии, управление phpmyadmin в apache</p>
 <br><br>
-<img src="https://habrastorage.org/files/ed4/8b6/ffa/ed48b6ffaf5d4bd3aca20c02eeb97a5a.png" aling="center"/>
+<img src="https://habrastorage.org/files/0c5/adc/cfb/0c5adccfb5aa49e3be49474ad0b5139b.png" aling="center"/>
 <br><br>
 <h3>Требования</h3>
 1. Поддержка утилиты wget
