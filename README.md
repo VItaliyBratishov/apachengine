@@ -1,5 +1,5 @@
 <h3>Apachengine <sup>beta</sup></h3>
-<b>Управление сервером через веб-панель</b>
+<b>Управление сервером Apache под Linux через веб-панель управления</b>
 <p>Возможность автоматического добавления, удаления хостов, просмотр php версии, управление phpmyadmin в apache</p>
 <br>
 <img src="https://habrastorage.org/files/0c5/adc/cfb/0c5adccfb5aa49e3be49474ad0b5139b.png" aling="center"/>
