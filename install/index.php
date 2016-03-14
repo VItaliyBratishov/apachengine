@@ -37,17 +37,16 @@
 		chmod("/var/www/apachengine/.secret", 0777);
 
 		$sh = "#!/bin/bash\n";
-		$sh .= "sudo sudo -S mv hosts /etc/ < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S a2dissite $domain.conf < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S rm -rf /etc/apache2/sites-available/$domain.conf < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S rm -rf /var/www/$domain/ < /var/www/apachengine/.secret\n";
+		$sh .= "sudo sudo -S mv hosts /etc/\n";
+		$sh .= "sudo a2dissite $domain.conf\n";
+		$sh .= "sudo rm -rf /etc/apache2/sites-available/$domain.conf\n";
+		$sh .= "sudo rm -rf /var/www/$domain/\n";
 		$sh .= "sudo service apache2 restart\n";
 
 		file_put_contents($domain."-del.sh", $sh);
 		chmod($domain."-del.sh", 0777);
 
-		exec("sudo -S sh $domain-del.sh < /var/www/apachengine/.secret", $output);
-
+		exec("sudo sh $domain-del.sh", $output);
 		
 		exit;
 
@@ -79,31 +78,33 @@
 
 		if ($drop == ".") $drop = "";
 
+		// с поддержкой mod rewrite
 		$conf = "<VirtualHost *:80>\n"
 		        ."\tServerName $domain\n"
 		        ."\tServerAdmin webmaster@localhost\n"
 		        ."\tDocumentRoot /var/www/$domain/$drop\n"
+		        ."\t<Directory /var/www/$domain/>\n"
+		        	."\tOptions Indexes FollowSymLinks\n"
+		        	."\tAllowOverride All\n"
+		        	."\tRequire all granted\n"
+		        ."\t</Directory>\n"
 		     ."</VirtualHost>\n";
 
 		file_put_contents($domain.".conf", $conf);
 		chmod($domain.".conf", 0777);
 
 		$sh = "#!/bin/bash\n";
-		$sh .= "sudo sudo -S  mv $domain.conf /etc/apache2/sites-available/ < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S echo \"127.0.0.1  $domain\" >> /etc/hosts < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S a2ensite $domain.conf < /var/www/apachengine/.secret\n";
-		$sh .= "sudo -S chmod -R 777 * /var/www/$domain/  < /var/www/apachengine/.secret\n";
-		$sh .= 'sudo -S chown -R $USER:$USER /var/www/'. $domain . '/ < /var/www/apachengine/.secret'."\n";
+		$sh .= "sudo mv $domain.conf /etc/apache2/sites-available/\n";
+		$sh .= "sudo echo \"127.0.0.1  $domain\" >> /etc/hosts\n";
+		$sh .= "sudo a2ensite $domain.conf\n";
+		$sh .= "sudo chmod -R 777 * /var/www/$domain/\n";
+		$sh .= 'sudo chown -R $USER:$USER /var/www/'. $domain ."\n";
 		$sh .= "sudo service apache2 restart\n";
 
 		file_put_contents($domain.".sh", $sh);
 		chmod($domain.".sh", 0777);
 
-		exec("sudo -S sh $domain.sh < /var/www/apachengine/.secret", $output);
-
-		$a = unlink($domain.".sh");
-		unlink($domain.".conf");
-		unlink(".secret");
+		exec("sudo sh $domain.sh", $output);
 
 		echo "Успешно добавлен новый хост";
 		exit;
@@ -353,7 +354,7 @@
 
     <!-- footer -->
     <footer>
-      <p>&copy Apachengine 2016</p>
+      <p>&copy ApachEngine 2016</p>
     </footer>
   </main>
 

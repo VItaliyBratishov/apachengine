@@ -21,6 +21,7 @@ sudo echo -e "\\n127.0.0.1   apachengine\\n" >> /etc/hosts
 sudo chmod 755 /etc/hosts
 read -p "Добавлен хост [127.0.0.1   apachengine]. Дальше? [Д/н] " answer
 
+echo "Разрешение запуска PHP из под sudo"
 echo "Внимание, сейчас откроется редактор, добавьте новой строкой:"
 echo "www-data ALL=(ALL) NOPASSWD: ALL"
 read -p "Дальше? [Д/н] " answer
