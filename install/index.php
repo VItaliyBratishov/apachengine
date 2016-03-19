@@ -10,7 +10,6 @@
 
 	if (isset($_POST['deletedomain'])) {
 		$domain = trim($_POST['deletedomain']);
-		$password = trim($_POST['password']);
 		unset($_POST);
 
 		$findme = '127.0.0.1'.str_replace(" ","", $domain);
@@ -33,9 +32,6 @@
 		file_put_contents("hosts", $stream);
 		chmod("hosts", 0755);
 
-		file_put_contents("/var/www/apachengine/.secret", $password);
-		chmod("/var/www/apachengine/.secret", 0777);
-
 		$sh = "#!/bin/bash\n";
 		$sh .= "sudo sudo -S mv hosts /etc/\n";
 		$sh .= "sudo a2dissite $domain.conf\n";
@@ -54,7 +50,6 @@
 
 	if (isset($_POST['createdomain'])) {
 		$domain = trim($_POST['createdomain']);
-		$password = trim($_POST['password']);
 		$drop = trim($_POST['drop']);
 		unset($_POST);
 
@@ -73,9 +68,6 @@
 
 		}
 
-		file_put_contents("/var/www/apachengine/.secret", $password);
-		chmod("/var/www/apachengine/.secret", 0777);
-
 		if ($drop == ".") $drop = "";
 
 		// с поддержкой mod rewrite
@@ -84,9 +76,11 @@
 		        ."\tServerAdmin webmaster@localhost\n"
 		        ."\tDocumentRoot /var/www/$domain/$drop\n"
 		        ."\t<Directory /var/www/$domain/>\n"
-		        	."\tOptions Indexes FollowSymLinks\n"
+		        	."\tOptions Indexes FollowSymLinks MultiViews\n"
+		        	."\tOptions All\n"
 		        	."\tAllowOverride All\n"
-		        	."\tRequire all granted\n"
+		        	."\tOrder allow,deny\n"
+		        	."\tAllow from all\n"
 		        ."\t</Directory>\n"
 		     ."</VirtualHost>\n";
 
@@ -167,24 +161,14 @@
 
   </style>
 </head>
-
 <body>
+
 	<div class="mainmodal">
 		 <div class="modalpas">
-			<p>Введите пароль администратора:</p>
-			<input class="inputpas" type="password" placeholder="*******">
-			<button class="okpas">Готово</button>
+			
 		</div>
 	</div>
 
-	<div class="delmodal">
-		 <div class="delpas">
-			<p>Введите пароль администратора:</p>
-			<input class="delinputpas" type="password" placeholder="*******">
-			<button class="delokpas">Готово</button>
-		</div>
-	</div>
-   
 
   <main>
     <!-- Navigation -->
@@ -210,30 +194,25 @@
 			<button class="addhost">Создать</button>
 		</form>
 		<script>
-			var $pass, $domain, $dir;
+			var $domain, $dir;
 
 			$('.addhost').click(function(){
 				$inp = $('.input');
 				$domain = $inp.val();
-				$('.mainmodal').fadeIn();
 				$sel = $('.drop option:selected').val();
 
-				return false;
-			});
-
-			$('.okpas').click(function(){
-				$inp = $('.inputpas');
-				$pass = $inp.val(); $inp.val("");
+				$('.mainmodal').fadeIn();
 
 				$.ajax({
 				  type: "POST",
-				  data: "createdomain="+$domain+"&password="+$pass+"&drop="+$sel,
+				  data: "createdomain="+$domain+"&drop="+$sel,
 				  url: "index.php",
-				  success: function(a){
-				  }
+				  success: function(a){}
 				});
 
-				$('.modalpas').html("<p align='center'>Хост инициализирован</p><img src='https://upload.wikimedia.org/wikipedia/commons/4/45/Apache_HTTP_server_logo_(2016).png'>");
+				$('.modalpas')
+				.html("<p align='center'>Хост инициализирован</p><img src='https://upload.wikimedia.org/wikipedia/commons/4/45/Apache_HTTP_server_logo_(2016).png'>");
+				
 				setTimeout(function(){
 					location.reload();
 				}, 3000);
@@ -307,32 +286,24 @@
 		    var $deldomain;
 		  	$('.deletedomain').click(function(){
 		  		$deldomain = $(this).attr("href");
-		  		$('.delmodal').fadeIn();
-		  		return false;
-		  	});
-
-		  	$('.delokpas').click(function(){
-		  		$inp = $('.delinputpas');
-		  		$pass = $inp.val(); $inp.val("");
+		  		$('.mainmodal').fadeIn();
 
 		  		$.ajax({
 		  		  type: "POST",
-		  		  data: "deletedomain="+$deldomain+"&password="+$pass,
+		  		  data: "deletedomain="+$deldomain,
 		  		  url: "index.php",
-		  		  success: function(a){
-		  		  	
-		  		  }
+		  		  success: function(a){}
 		  		});
 
-		  		$('.delpas').html("<p align='center'>Хост удален</p><img src='https://upload.wikimedia.org/wikipedia/commons/4/45/Apache_HTTP_server_logo_(2016).png'>");
+		  		$('.modalpas').html("<p align='center'>Хост удален</p><img src='https://upload.wikimedia.org/wikipedia/commons/4/45/Apache_HTTP_server_logo_(2016).png'>");
 
 		  		setTimeout(function(){
 		  			location.reload();
 		  		}, 3000);
 
+
 		  		return false;
 		  	});
-
 
 		  </script>
 
