@@ -6,7 +6,8 @@ sudo apt-get install python-software-properties
 sudo add-apt-repository ppa:ondrej/php-7.0
 sudo apt-get update
 sudo apt-get purge php5-fpm
-sudo apt-get install php7.0-cli php7.0-common libapache2-mod-php7.0 php7.0 php7.0-mysql php7.0-fpm php7.0-curl php7.0-gd php7.0-mysql php7.0-bz2  php7.0-mbstring
+sudo apt-get install php7.0-cli php7.0-common libapache2-mod-php7.0 php7.0 php7.0-mysql php7.0-fpm php7.0-curl php7.0-gd php7.0-mysql php7.0-bz2 
+sudo apt-get install php7.0-mbstring php7.0-zip php7.0-xml
 
 # установка apache2.4
 sudo add-apt-repository ppa:ondrej/apache2
@@ -46,6 +47,8 @@ echo "     Require all granted"
 echo "</Directory>"
 read -p "Дальше? [Д/н] " answer
 sudo gedit /etc/apache2/sites-available/000-default.conf
+
+sudo cp index.html /var/www/html/
 
 sudo a2enmod rewrite
 sudo a2dismod mpm_event
