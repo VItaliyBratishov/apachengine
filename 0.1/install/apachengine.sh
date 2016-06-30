@@ -37,8 +37,15 @@ sudo chown -R $USER:$USER /var/www/apachengine/
 read -p "Имя пользователя: " user
 sudo useradd -G www-data $user
 
-sudo echo -e "\\n umask 002 \\n" >> /etc/init.d/apache2
-sudo echo -e "\\n umask 002 \\n" >> /etc/apache2/envvars
+echo "Внимание, сейчас откроется редактор, добавьте новой строкой:"
+echo "umask 002"
+read -p "Дальше? [Д/н] " answer
+sudo gedit /etc/init.d/apache2
+
+echo "Внимание, сейчас откроется редактор, добавьте новой строкой:"
+echo "umask 002"
+read -p "Дальше? [Д/н] " answer
+sudo gedit /etc/apache2/envvars
 
 sudo systemctl daemon-reload
 
